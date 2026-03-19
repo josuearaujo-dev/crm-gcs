@@ -82,7 +82,12 @@ export function AppSidebar({ isAuthenticated, isSuperadmin }: Props) {
                   <span className="text-[10px] leading-none">Histórico</span>
                 </Link>
               </>
-            ) : null}
+            ) : (
+              <Link href="/login" className={baseLinkClasses('/login')}>
+                <LogIn className="w-6 h-6" />
+                <span className="text-[10px] leading-none">Entrar</span>
+              </Link>
+            )}
           </div>
         </div>
       </>
@@ -172,7 +177,21 @@ export function AppSidebar({ isAuthenticated, isSuperadmin }: Props) {
                 {!isCollapsed && <span>Nova Pessoa</span>}
               </Link>
             </div>
-          ) : null}
+          ) : (
+            <Link
+              href="/login"
+              className={cn(
+                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors mt-1',
+                pathname === '/login'
+                  ? 'bg-primary text-primary-foreground'
+                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground',
+                isCollapsed && 'justify-center'
+              )}
+            >
+              <LogIn className="w-4 h-4 shrink-0" />
+              {!isCollapsed && <span>Entrar</span>}
+            </Link>
+          )}
 
           {isAuthenticated ? (
             <div className={cn('mt-1', isCollapsed ? 'px-0' : 'px-1')}>
