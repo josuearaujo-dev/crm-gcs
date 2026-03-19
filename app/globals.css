@@ -170,6 +170,14 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 768px) {
+  .address-search-container gmp-place-autocomplete::part(input) {
+    /* Evita zoom automático ao focar no iOS/alguns Androids */
+    font-size: 16px;
+    border-width: 1px;
+  }
+}
+
 .address-search-container gmp-place-autocomplete::part(input):focus {
   outline: none;
   box-shadow: 0 0 0 1px var(--ring);
