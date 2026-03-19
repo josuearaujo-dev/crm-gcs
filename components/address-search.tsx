@@ -48,6 +48,17 @@ export function AddressSearch({
     return ''
   }
 
+  function scrollToTopOnMobile() {
+    if (typeof window === 'undefined') return
+    if (!window.matchMedia('(max-width: 768px)').matches) return
+
+    // Em mobile, traz o campo para uma área visível quando o teclado aparece.
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    window.requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
+  }
+
   // Monta o PlaceAutocompleteElement (Web Component) ao carregar a API
   useEffect(() => {
     if (!mapsLoaded || !containerRef.current || elementRef.current) return
@@ -102,9 +113,14 @@ export function AddressSearch({
       onSelect({ endereco, lat, lng })
     })
 
+    pac.addEventListener('focusin', () => {
+      scrollToTopOnMobile()
+    })
+
     // Tentativa: alguns builds disparam eventos de input vindos do componente.
     // Mantemos este listener, mas o "fallback" de polling abaixo garante o reset no X.
     pac.addEventListener('input', () => {
+      scrollToTopOnMobile()
       if (!onClear) return
       const currentValue = readCurrentPacValue(pac)
       if (!currentValue) {
