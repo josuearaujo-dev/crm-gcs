@@ -50,7 +50,7 @@ export function AppSidebar({ isAuthenticated, isSuperadmin }: Props) {
       <>
         {isAuthenticated ? (
           <div className="fixed right-3 top-3 z-50">
-            <LogoutButton compact className="w-auto !p-2 !h-9 !min-w-0 !gap-0" />
+            <LogoutButton compact className="w-auto p-2! h-9! min-w-0! gap-0!" />
           </div>
         ) : null}
 
@@ -67,27 +67,22 @@ export function AppSidebar({ isAuthenticated, isSuperadmin }: Props) {
             <span className="text-[10px] leading-none">Mapa</span>
           </Link>
 
-          {!isAuthenticated ? (
-            <Link href="/login" className={baseLinkClasses('/login')}>
-              <LogIn className="w-6 h-6" />
-              <span className="text-[10px] leading-none">Entrar</span>
-            </Link>
-          ) : (
-            <>
-              <Link href="/pessoas/nova" className={baseLinkClasses('/pessoas/nova')}>
-                <UserPlus className="w-6 h-6" />
-                <span className="text-[10px] leading-none">Pessoa</span>
-              </Link>
-              <Link href="/presencas" className={baseLinkClasses('/presencas')}>
-                <CalendarCheck className="w-6 h-6" />
-                <span className="text-[10px] leading-none">Presenças</span>
-              </Link>
-              <Link href="/presencas/historico" className={baseLinkClasses('/presencas/historico')}>
-                <History className="w-6 h-6" />
-                <span className="text-[10px] leading-none">Histórico</span>
-              </Link>
-            </>
-          )}
+            {isAuthenticated ? (
+              <>
+                <Link href="/pessoas/nova" className={baseLinkClasses('/pessoas/nova')}>
+                  <UserPlus className="w-6 h-6" />
+                  <span className="text-[10px] leading-none">Pessoa</span>
+                </Link>
+                <Link href="/presencas" className={baseLinkClasses('/presencas')}>
+                  <CalendarCheck className="w-6 h-6" />
+                  <span className="text-[10px] leading-none">Presenças</span>
+                </Link>
+                <Link href="/presencas/historico" className={baseLinkClasses('/presencas/historico')}>
+                  <History className="w-6 h-6" />
+                  <span className="text-[10px] leading-none">Histórico</span>
+                </Link>
+              </>
+            ) : null}
           </div>
         </div>
       </>
@@ -122,7 +117,7 @@ export function AppSidebar({ isAuthenticated, isSuperadmin }: Props) {
             Visualizar
           </p>
         )}
-        {navItems.map(({ href, label, icon: Icon }) => (
+        {(isAuthenticated ? navItems : navItems.filter((x) => x.href === '/mapa')).map(({ href, label, icon: Icon }) => (
           <Link
             key={href}
             href={href}
@@ -177,21 +172,7 @@ export function AppSidebar({ isAuthenticated, isSuperadmin }: Props) {
                 {!isCollapsed && <span>Nova Pessoa</span>}
               </Link>
             </div>
-          ) : (
-            <Link
-              href="/login"
-              className={cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors mt-1',
-                pathname === '/login'
-                  ? 'bg-primary text-primary-foreground'
-                  : 'text-sidebar-foreground/70 hover:bg-sidebar-accent/60 hover:text-sidebar-accent-foreground',
-                isCollapsed && 'justify-center'
-              )}
-            >
-              <LogIn className="w-4 h-4 shrink-0" />
-              {!isCollapsed && <span>Entrar</span>}
-            </Link>
-          )}
+          ) : null}
 
           {isAuthenticated ? (
             <div className={cn('mt-1', isCollapsed ? 'px-0' : 'px-1')}>
