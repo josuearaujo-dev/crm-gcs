@@ -59,6 +59,14 @@ export function AddressSearch({
     })
   }
 
+  function blurAutocompleteInput(pac: HTMLElement) {
+    const active = document.activeElement as HTMLElement | null
+    if (active) active.blur()
+
+    const innerInput = pac.querySelector('input') as HTMLInputElement | null
+    if (innerInput) innerInput.blur()
+  }
+
   // Monta o PlaceAutocompleteElement (Web Component) ao carregar a API
   useEffect(() => {
     if (!mapsLoaded || !containerRef.current || elementRef.current) return
@@ -111,6 +119,7 @@ export function AddressSearch({
       const lng = json.location?.lng ?? 0
       const endereco = json.formattedAddress ?? ''
       onSelect({ endereco, lat, lng })
+      blurAutocompleteInput(pac)
     })
 
     pac.addEventListener('focusin', () => {
@@ -155,7 +164,7 @@ export function AddressSearch({
           defaultValue={value}
           placeholder={placeholder}
           disabled={disabled}
-          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-9 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 pl-9 text-base md:text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
         />
       )}
     </div>

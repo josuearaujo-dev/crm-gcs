@@ -30,10 +30,36 @@ export function AppSidebar({ isAuthenticated, isSuperadmin }: Props) {
   const pathname = usePathname()
   const isMobile = useIsMobile()
   const [isCollapsed, setIsCollapsed] = React.useState(false)
+  const [viewportInsets, setViewportInsets] = React.useState({ top: 0, bottom: 0 })
 
   React.useEffect(() => {
     // Em telas menores, deixamos o menu recolhido por padrão
     setIsCollapsed(isMobile)
+  }, [isMobile])
+
+  React.useEffect(() => {
+    if (!isMobile || typeof window === 'undefined' || !window.visualViewport) {
+      setViewportInsets({ top: 0, bottom: 0 })
+      return
+    }
+
+    const vv = window.visualViewport
+    const updateInsets = () => {
+      const top = Math.max(0, vv.offsetTop)
+      const bottom = Math.max(0, window.innerHeight - (vv.height + vv.offsetTop))
+      setViewportInsets({ top, bottom })
+    }
+
+    updateInsets()
+    vv.addEventListener('resize', updateInsets)
+    vv.addEventListener('scroll', updateInsets)
+    window.addEventListener('resize', updateInsets)
+
+    return () => {
+      vv.removeEventListener('resize', updateInsets)
+      vv.removeEventListener('scroll', updateInsets)
+      window.removeEventListener('resize', updateInsets)
+    }
   }, [isMobile])
 
   // Mobile: barra fixa inferior (não ocupa layout lateral) para não atrapalhar o mapa.
@@ -49,17 +75,18 @@ export function AppSidebar({ isAuthenticated, isSuperadmin }: Props) {
     return (
       <>
         {isAuthenticated ? (
-          <div className="fixed right-3 top-3 z-50">
+          <div className="fixed right-3 z-50" style={{ top: `calc(0.75rem + ${viewportInsets.top}px)` }}>
             <LogoutButton compact className="w-auto p-2! h-9! min-w-0! gap-0!" />
           </div>
         ) : null}
 
         <div
           className={cn(
-            'fixed left-0 right-0 bottom-0 z-50',
+            'fixed left-0 right-0 z-50',
             'bg-sidebar/95 backdrop-blur border-t border-sidebar-border shadow-lg text-sidebar-foreground',
             'pt-1 pb-[calc(8px+env(safe-area-inset-bottom))]'
           )}
+          style={{ bottom: `${viewportInsets.bottom}px` }}
         >
           <div className="flex items-center justify-around px-3">
           <Link href="/mapa" className={baseLinkClasses('/mapa')}>
