@@ -49,8 +49,8 @@ export function GCDistancePanel({ gcs, pessoas, reference, onReferenceChange, on
   }, [gcs, pessoas, reference])
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="px-4 py-3 border-b border-border space-y-2">
+    <div className="flex flex-col h-full min-h-0">
+      <div className="px-4 py-3 border-b border-border space-y-2 shrink-0 bg-card">
         <div>
           <p className="text-sm font-medium text-foreground">Distância até os GCs</p>
           <p className="text-xs text-muted-foreground">
@@ -82,7 +82,7 @@ export function GCDistancePanel({ gcs, pessoas, reference, onReferenceChange, on
           Nenhum GC cadastrado para calcular a distância.
         </div>
       ) : (
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain">
           <ul className="divide-y divide-border text-sm">
             {gcsWithDistance.map((gc) => (
               <li
