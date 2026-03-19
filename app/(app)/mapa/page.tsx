@@ -35,17 +35,17 @@ export default async function MapaPage() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <header className="shrink-0 px-6 py-4 border-b border-border bg-card flex items-center justify-between">
+    <div className="flex flex-col min-h-dvh md:min-h-screen">
+      <header className="shrink-0 px-4 md:px-6 py-3 md:py-4 border-b border-border bg-card flex items-center justify-between gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-foreground" style={{ fontFamily: 'var(--font-heading)' }}>
+          <h1 className="text-lg md:text-xl font-semibold text-foreground" style={{ fontFamily: 'var(--font-heading)' }}>
             Mapa Geral
           </h1>
-          <p className="text-sm text-muted-foreground mt-0.5">
+          <p className="text-xs md:text-sm text-muted-foreground mt-0.5">
             Localize qual GC está mais perto de um endereço.
           </p>
         </div>
-        <div className="flex items-center gap-4 text-xs text-muted-foreground">
+        <div className="hidden md:flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5">
             <span className="inline-block w-3 h-3 rounded-full bg-[#1e5fa8]" />
             GCs

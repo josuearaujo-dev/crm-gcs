@@ -15,9 +15,9 @@ export function MapaClientWrapper({ gcs, pessoas }: Props) {
   const [highlightGcId, setHighlightGcId] = React.useState<string | null>(null)
 
   return (
-    <div className="flex flex-col md:flex-row flex-1 w-full">
+    <div className="flex flex-col md:flex-row flex-1 w-full min-h-0">
       {/* Mapa */}
-      <div className="flex-1 min-w-0 min-h-[50vh] md:min-h-0">
+      <div className="flex-1 min-w-0 h-[46dvh] min-h-[320px] md:h-auto md:min-h-0">
         <MapaGC
           gcs={gcs}
           pessoas={pessoas}
@@ -30,7 +30,7 @@ export function MapaClientWrapper({ gcs, pessoas }: Props) {
       </div>
 
       {/* Painel lateral: distância até os GCs */}
-      <aside className="w-full md:w-80 shrink-0 border-t md:border-t-0 md:border-l border-border bg-card">
+      <aside className="w-full md:w-80 shrink-0 border-t md:border-t-0 md:border-l border-border bg-card min-h-0 pb-20 md:pb-0">
         <GCDistancePanel
           gcs={gcs}
           pessoas={pessoas}
